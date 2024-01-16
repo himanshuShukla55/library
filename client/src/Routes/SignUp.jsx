@@ -45,10 +45,7 @@ const SignUp = () => {
             values: { name: "", email: "", password: "", role: "VIEW_ALL" },
           });
           navigate("/login");
-        } catch (error) {
-          console.log("error in signing up!");
-          console.error(error);
-        }
+        } catch (error) {}
       },
     });
   const { name, email, password, role } = values;

@@ -20,18 +20,14 @@ const Dashboard = () => {
       else if (seeBooks === "old") url += "?old=1";
       const { data } = await axios.get(url);
       if (data.success) setBooks(data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   //* function to delete book
   const deleteBook = async (id) => {
     try {
       await axios.delete(`/api/books/delete/${id}`);
       getBooks();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   //* function to add new book
   const handleAdd = async (values) => {
@@ -39,9 +35,7 @@ const Dashboard = () => {
       await axios.post("/api/books", values);
       setShowAddForm(false);
       getBooks();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   //* function to edit book
   const handleEdit = async (values, id) => {
@@ -49,9 +43,7 @@ const Dashboard = () => {
       await axios.put(`/api/books/edit/${id}`, values);
       setShowEditForm(false);
       getBooks();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     getBooks();

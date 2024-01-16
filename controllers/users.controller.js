@@ -20,7 +20,6 @@ export const signUp = async (req, res, next) => {
       message: "sign up successful!",
     });
   } catch (error) {
-    console.error("error in user signup", error);
     next(error);
   }
 };
@@ -49,7 +48,6 @@ export const login = async (req, res, next) => {
       data,
     });
   } catch (error) {
-    console.error("error in user login!", error);
     next(error);
   }
 };

@@ -1,5 +1,7 @@
 import express from "express";
 import "dotenv/config";
+import morgan from "morgan";
+import fs from "fs";
 import connection from "./config/db.js";
 import userRouter from "./routes/users.route.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
@@ -9,6 +11,10 @@ import bookRouter from "./routes/books.route.js";
 
 const app = express();
 
+const accessLogStream = fs.createWriteStream("./access.log", { flags: "a" });
+
+// setup the logger
+app.use(morgan("combined", { stream: accessLogStream }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,9 +31,5 @@ const port = process.env.PORT || 8080;
 app.listen(port, async () => {
   try {
     await connection(process.env.DBURL);
-    console.log("connected to database!");
-    console.log(`server is listening on port: ${port}!`);
-  } catch (error) {
-    console.error("error in connecting to database!");
-  }
+  } catch (error) {}
 });

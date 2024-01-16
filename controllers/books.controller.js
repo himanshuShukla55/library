@@ -9,7 +9,6 @@ export const addBook = async (req, res, next) => {
       message: "book added!",
     });
   } catch (error) {
-    console.error("error in adding book!", error);
     next(error);
   }
 };
@@ -23,7 +22,6 @@ export const editBook = async (req, res, next) => {
       message: "book updated!",
     });
   } catch (error) {
-    console.error("error in updating book!", error);
     next(error);
   }
 };
@@ -37,7 +35,6 @@ export const deleteBook = async (req, res, next) => {
       message: "book deleted!",
     });
   } catch (error) {
-    console.error("error in deleting book!", error);
     next(error);
   }
 };
@@ -69,7 +66,6 @@ export const getBooks = async (req, res, next) => {
       data: books,
     });
   } catch (error) {
-    console.log("error in getting books!", error);
     next(error);
   }
 };
