@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { UserContext } from "../Context/UserContext";
 
 const Login = () => {
   //navigate
   const navigate = useNavigate();
+
+  //context
+  const { setAuth, setLoading, setError, setUser, error } =
+    useContext(UserContext);
+
   //form state
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
     useFormik({
@@ -26,13 +32,21 @@ const Login = () => {
       //function to handle form submit
       onSubmit: async (values, { resetForm }) => {
         try {
-          const res = await axios.post("/api/users/login", values);
-          resetForm({
-            values: { email: "", password: "" },
-          });
-          navigate("/");
+          setLoading(true);
+          setError(null);
+          const { data } = await axios.post("/api/users/login", values);
+          setLoading(false);
+          if (data.success) {
+            setUser(data.data);
+            setAuth(true);
+            resetForm({
+              values: { email: "", password: "" },
+            });
+            navigate("/");
+          } else setError(data);
         } catch (error) {
           console.log("error in login!");
+          setError(error);
           console.error(error);
         }
       },
@@ -85,6 +99,7 @@ const Login = () => {
         type="submit"
         value="Login"
       />
+      {error && <p className="text-sm text-red-600 mt-5">{error.message}</p>}
     </form>
   );
 };
