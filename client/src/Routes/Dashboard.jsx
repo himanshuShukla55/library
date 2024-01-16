@@ -11,10 +11,14 @@ const Dashboard = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [bookToEdit, setBookToEdit] = useState();
+  const [seeBooks, setSeeBooks] = useState("");
   //* function to fetch books
   const getBooks = async () => {
     try {
-      const { data } = await axios.get("/api/books");
+      let url = "/api/books";
+      if (seeBooks === "new") url += "?new=1";
+      else if (seeBooks === "old") url += "?old=1";
+      const { data } = await axios.get(url);
       if (data.success) setBooks(data.data);
     } catch (error) {
       console.log(error);
@@ -51,7 +55,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     getBooks();
-  }, []);
+  }, [seeBooks]);
   return (
     <>
       <div className="flex justify-center m-1 p-3 text-xl lg:text-3xl font-semibold items-center gap-36 lg:gap-x-[400px]">
@@ -64,6 +68,20 @@ const Dashboard = () => {
             Add Book
           </button>
         )}
+      </div>
+      <div className="flex justify-center p-3 text-md lg:text-2xl items-center">
+        <h3>SEE BOOKS:</h3>
+        <select
+          className="outline-none bg-black text-center border border-gray-200 p-2 rounded-lg lg:ml-[215px]"
+          value={seeBooks}
+          onChange={({ target: { value } }) => {
+            setSeeBooks(value);
+          }}
+        >
+          <option value="">Select an option</option>
+          <option value="new">CREATED WITHIN 10 minutes</option>
+          <option value="old">CREATED BEFORE 10 minutes</option>
+        </select>
       </div>
       <table className="text-center w-[90%] mx-auto border border-white">
         <thead>
