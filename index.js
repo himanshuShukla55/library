@@ -12,6 +12,7 @@ import bookRouter from "./routes/books.route.js";
 const app = express();
 
 const accessLogStream = fs.createWriteStream("./access.log", { flags: "a" });
+const port = process.env.PORT || 8080;
 
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
@@ -25,8 +26,6 @@ app.use(authenticate);
 app.use("/api/books", bookRouter);
 
 app.use(errorHandler);
-
-const port = process.env.PORT || 8080;
 
 app.listen(port, async () => {
   try {
