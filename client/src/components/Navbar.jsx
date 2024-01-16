@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { UserContext } from "../Context/UserContext";
 
 const Navbar = () => {
   // State to manage the navbar's visibility
@@ -11,12 +12,22 @@ const Navbar = () => {
     setNav(!nav);
   };
 
+  const { auth, setUser, setAuth } = useContext(UserContext);
+
+  // function to handle logout
+  const handleLogout = () => {
+    setUser(null);
+    setAuth(false);
+  };
+
   // Array containing navigation items
-  const navItems = [
-    { id: 1, text: "Dashboard", path: "/" },
-    { id: 2, text: "SignUp", path: "/signup" },
-    { id: 3, text: "Login", path: "/login" },
-  ];
+  const navItems = auth
+    ? [{ id: 1, text: "Dashboard", path: "/" }]
+    : [
+        { id: 1, text: "Dashboard", path: "/" },
+        { id: 2, text: "SignUp", path: "/signup" },
+        { id: 3, text: "Login", path: "/login" },
+      ];
 
   return (
     <div className="bg-black flex justify-between items-center h-24 mx-auto px-4 text-white">
@@ -24,7 +35,7 @@ const Navbar = () => {
       <h1 className="w-full text-3xl font-bold text-[#00df9a]">LIBRARY.</h1>
 
       {/* Desktop Navigation */}
-      <ul className="hidden md:flex md:gap-5">
+      <ul className="hidden md:flex md:gap-5 items-center">
         {navItems.map((item) => (
           <li key={item.id}>
             <Link
@@ -35,6 +46,14 @@ const Navbar = () => {
             </Link>
           </li>
         ))}
+        {auth && (
+          <li
+            className="p-4 hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
+            onClick={handleLogout}
+          >
+            Logout
+          </li>
+        )}
       </ul>
 
       {/* Mobile Navigation Icon */}
