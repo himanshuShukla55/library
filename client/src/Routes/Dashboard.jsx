@@ -83,47 +83,53 @@ const Dashboard = () => {
           <option value="old">CREATED BEFORE 10 minutes</option>
         </select>
       </div>
-      <table className="text-center w-[90%] mx-auto border border-white">
-        <thead>
-          <tr className="bg-[#00df9a] text-white text-xl lg:text-3xl">
-            <th className="p-3">S.No</th>
-            <th className="p-3">Book Name</th>
-            {isCreator && (
-              <>
-                <th className="p-3">Edit</th>
-                <th className="p-3">Delete</th>
-              </>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book, index) => (
-            <tr key={index} className="text-lg lg:text-xl p-5">
-              <td className="p-3">{index + 1}</td>
-              <td className="p-3">{book.name}</td>
+      {books.length > 0 ? (
+        <table className="text-center w-[90%] mx-auto border border-white">
+          <thead>
+            <tr className="bg-[#00df9a] text-white text-xl lg:text-3xl">
+              <th className="p-3">S.No</th>
+              <th className="p-3">Book Name</th>
               {isCreator && (
                 <>
-                  <td className="p-3">
-                    <button
-                      onClick={() => {
-                        setBookToEdit({ name: book.name, id: book._id });
-                        setShowEditForm(true);
-                      }}
-                    >
-                      <MdEdit />
-                    </button>
-                  </td>
-                  <td className="p-3">
-                    <button onClick={() => deleteBook(book._id)}>
-                      <MdDelete />
-                    </button>
-                  </td>
+                  <th className="p-3">Edit</th>
+                  <th className="p-3">Delete</th>
                 </>
               )}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {books.map((book, index) => (
+              <tr key={index} className="text-lg lg:text-xl p-5">
+                <td className="p-3">{index + 1}</td>
+                <td className="p-3">{book.name}</td>
+                {isCreator && (
+                  <>
+                    <td className="p-3">
+                      <button
+                        onClick={() => {
+                          setBookToEdit({ name: book.name, id: book._id });
+                          setShowEditForm(true);
+                        }}
+                      >
+                        <MdEdit />
+                      </button>
+                    </td>
+                    <td className="p-3">
+                      <button onClick={() => deleteBook(book._id)}>
+                        <MdDelete />
+                      </button>
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="flex justify-center items-center border border-gray-200 rounded-lg m-5 h-[200px] lg:h-[400px]">
+          No Books available
+        </div>
+      )}
       {showAddForm && (
         <PopUpForm
           formName="Add Book"
