@@ -50,18 +50,18 @@ const Dashboard = () => {
   }, [seeBooks]);
   return (
     <>
-      <div className="flex justify-center m-1 p-3 text-xl lg:text-3xl font-semibold items-center gap-36 lg:gap-x-[400px]">
+      <div className="flex justify-center max-w-[90%] mx-5 lg:mx-20 p-3 bg-[#00df9a] text-xl lg:text-3xl font-semibold items-center gap-36 lg:gap-x-[400px] rounded-lg">
         Dashboard
         {isCreator && (
           <button
-            className="bg-[#00df9a] text-white p-3 rounded-lg"
+            className="text-[#00df9a] bg-white p-3 rounded-lg"
             onClick={() => setShowAddForm(true)}
           >
             Add Book
           </button>
         )}
       </div>
-      <div className="flex justify-center p-3 text-md lg:text-2xl items-center">
+      <div className="flex justify-center p-3 my-2 text-md lg:text-2xl items-center">
         <h3>SEE BOOKS:</h3>
         <select
           className="outline-none bg-black text-center border border-gray-200 p-2 rounded-lg lg:ml-[215px]"
@@ -91,7 +91,12 @@ const Dashboard = () => {
           </thead>
           <tbody>
             {books.map((book, index) => (
-              <tr key={index} className="text-lg lg:text-xl p-5">
+              <tr
+                key={index}
+                className={`text-lg lg:text-xl p-5 ${
+                  index % 2 !== 0 && "bg-gray-600"
+                }`}
+              >
                 <td className="p-3">{index + 1}</td>
                 <td className="p-3">{book.name}</td>
                 {isCreator && (

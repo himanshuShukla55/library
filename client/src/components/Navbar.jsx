@@ -83,6 +83,14 @@ const Navbar = () => {
             <Link to={item.path}>{item.text}</Link>
           </li>
         ))}
+        {auth && (
+          <li
+            className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600"
+            onClick={handleLogout}
+          >
+            Logout
+          </li>
+        )}
       </ul>
     </div>
   );
