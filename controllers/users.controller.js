@@ -10,7 +10,7 @@ export const signUp = async (req, res, next) => {
 
     //! if the password is less than 8 characters abort signup
     if (!password || password.length < 8)
-      customError(404, "Password should be atleast 8 characters long!");
+      customError(400, "Password should be atleast 8 characters long!");
 
     //* hash the password and save new user document.
     const hash = bcrypt.hashSync(password, 5);
